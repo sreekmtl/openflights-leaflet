@@ -14,8 +14,6 @@ legend.onAdd = function() {
   div.innerHTML+='<br/>';
   div.innerHTML += '<i style="background: #ece2f0"></i><span>Less than 10</span><br/>';
   
-  
-
   return div;
 };
 

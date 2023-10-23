@@ -13,8 +13,6 @@ var map= L.map('map').setView([0.0,0.0],3);
 //map.setMaxBounds(map.getBounds);
 //map.options.maxBoundsViscosity=1.0;
 
-let legend= createLegend();
-legend.addTo(map);
 
 var baseLayer=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 15,
@@ -24,7 +22,12 @@ var baseLayer=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 var flightLineLayers= L.layerGroup();
+var airportLayers=L.layerGroup();
 
+let lines_displayed=false;
+
+let legend= createLegend();
+legend.addTo(map);
 
 //loading airport.json data using dataloader.js file
 let airportData= loadAirPortData();
@@ -68,10 +71,13 @@ for (let i=0; i<countryStore.length;i++){
                 //console.log(airportLocs[j].lat,airportLocs[j].lon);
                 findAirPort(airportLocs[j].lat,airportLocs[j].lon);
             }));
-            map.addLayer(markerStore[i]);
+            //map.addLayer(markerStore[i]);
+            airportLayers.addLayer(markerStore[i]);
         }
     }
 }
+
+airportLayers.addTo(map);
 
 //code for handling click on marker cluster
 for (let i=0;i<markerStore.length;i++){
@@ -107,6 +113,7 @@ for (let i=0;i<markerStore.length;i++){
 
 
 function findAirPort(lt,ln){
+    lines_displayed=true;
     let lat=lt;
     let lng=ln;
     let pathArray=[];
@@ -134,11 +141,24 @@ function findAirPort(lt,ln){
             }
 
             flightLineLayers.addTo(map);
-            
+            airportLayers.eachLayer(function (lyr){
+                map.removeLayer(lyr);
+            });
             
             
         }
 
     }
+
+    if (lines_displayed===true){
+        map.setZoom(3);
+        alert("Double click to reload airport layer");
+    }
 }
 
+map.on("dblclick",function (e){
+    
+    airportLayers.eachLayer(function (lyr){
+        map.addLayer(lyr);
+    });
+});
