@@ -44,11 +44,6 @@ function initialize(cntry){
         }
     }
 
-    console.log(airline_array);
-    console.log(service_array);
-
-    console.log("i is ",cntry);
-
     return tot_services;
 
 }

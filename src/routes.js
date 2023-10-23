@@ -6,7 +6,7 @@ import { loadRouteData } from "./dataloader";
 
 let routes=loadRouteData();
 var cnt = Object.keys(routes).length;
-console.log("Total no of routes: " +cnt); //66903
+//console.log("Total no of routes: " +cnt); //66903
 
 //function to find all routes from to and via an airport. used openflightId to search for airport
 function findRoute(ofId){

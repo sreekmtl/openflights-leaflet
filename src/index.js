@@ -29,15 +29,10 @@ var flightLineLayers= L.layerGroup();
 //loading airport.json data using dataloader.js file
 let airportData= loadAirPortData();
 var count = Object.keys(airportData).length;
-console.log("Total no of airports: " +count);
 
 
 let airportLocs= airportData.map(item => item.geometry);
 let countryList= airportData.map(item => item.attributes);
-console.log(airportLocs);
-
-var temp= countryList[191].country;
-console.log(temp);
 
 let countryStore=[]; //This array stores unique country names so we can cross check withit each time while creating new markercluster instance
 
@@ -48,17 +43,12 @@ for (let i=0; i<count;i++){
     }
 }
 
-console.log(countryStore);
-
 let markerStore=[]; // This array store instance of each markerCluster where each instance is for each country
 for (let i=0; i<countryStore.length; i++){
     var mkrClstr= new L.markerClusterGroup({maxClusterRadius:640,disableClusteringAtZoom:7,zoomToBoundsOnClick:false,showCoverageOnHover:false});
     markerStore.push(mkrClstr);
 
 }
-
-console.log(markerStore);
-console.log(markerStore.length);
 
 //now we have 237 markercluster instance each represent each country(including overseas teritories)
 //now from the airportlocs we have to add each airports to respective country's instance
@@ -67,7 +57,7 @@ console.log(markerStore.length);
 let markerOptions={color:'red',
 fillColor:'#f03',
 fillOpacity:0.5,
-radius:500
+radius:2000
 }
 
 for (let i=0; i<countryStore.length;i++){
@@ -75,7 +65,7 @@ for (let i=0; i<countryStore.length;i++){
 
         if (countryStore[i]===countryList[j].country){
             markerStore[i].addLayer(L.circle([airportLocs[j].lat,airportLocs[j].lon],markerOptions).on("click", function (e){
-                console.log(airportLocs[j].lat,airportLocs[j].lon);
+                //console.log(airportLocs[j].lat,airportLocs[j].lon);
                 findAirPort(airportLocs[j].lat,airportLocs[j].lon);
             }));
             map.addLayer(markerStore[i]);
@@ -86,9 +76,9 @@ for (let i=0; i<countryStore.length;i++){
 //code for handling click on marker cluster
 for (let i=0;i<markerStore.length;i++){
     markerStore[i].on('clusterclick', function (a) {
-        console.log(i);
+        //console.log(i);
         var chldary= a.layer.getAllChildMarkers();
-        console.log(chldary);
+        //console.log(chldary);
 
         const chartDiv = document.createElement('div');
         chartDiv.setAttribute('class', 'chartSpace');
@@ -151,8 +141,4 @@ function findAirPort(lt,ln){
 
     }
 }
-
-map.on("click", function (c){
-    console.log(flightLineLayers.getLayers());
-});
 
