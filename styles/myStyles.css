@@ -10,7 +10,7 @@ rect{
 .legend {
     background-color: rgb(255, 255, 255);
     width: 200px;
-    height: 130px;
+    height: 180px;
     padding: 6px 8px;
     border-radius: 15px;
     font-family: B612,serif;
@@ -46,5 +46,13 @@ rect{
     font-size: medium;
     color: rgb(16, 247, 81);
     font-family: 'B612',serif;
+}
+
+.legend input{
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin: 0 5px 0 0;
+
 }
 

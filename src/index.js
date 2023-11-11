@@ -6,7 +6,7 @@ import "../styles/MarkerCluster.Default.css";
 import "../styles/myStyles.css";
 import { findRoute } from "./routes.js";
 import { servicesChart,initialize } from "./charts.js";
-import { createLegend } from "./legend.js";
+import { createLegend, legendButtons } from "./legend.js";
 
 var map= L.map('map').setView([0.0,0.0],3);
 //map.options.maxBounds=[[90,-90],[180,-180]];
@@ -141,9 +141,6 @@ function findAirPort(lt,ln){
             }
 
             flightLineLayers.addTo(map);
-            airportLayers.eachLayer(function (lyr){
-                map.removeLayer(lyr);
-            });
             
             
         }
@@ -152,13 +149,9 @@ function findAirPort(lt,ln){
 
     if (lines_displayed===true){
         map.setZoom(3);
-        alert("Double click to reload airport layer");
     }
 }
 
-map.on("dblclick",function (e){
-    
-    airportLayers.eachLayer(function (lyr){
-        map.addLayer(lyr);
-    });
-});
+legendButtons(map,airportLayers);
+
+
