@@ -54,9 +54,8 @@ function findRoute(ofId){
 
 }
 
-//function to rectify geodesic lines crossing 180 longitude
+//function to rectify geodesic lines crossing 180 longitude (international dateline)
 function cross180(path,pathArray,lat,lng, val){
-    console.log(path._pathData.slice(-1)[0]);
     if (path._pathData.slice(-1)[0].includes(val)){
         var newPath= L.smoothGeodesic([lat,lng],[path._pathData.slice(-1)[0][0],180],30,{color:'red',fill:false,weight:1});
         pathArray.push(newPath);
