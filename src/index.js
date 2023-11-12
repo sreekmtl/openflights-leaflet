@@ -8,16 +8,20 @@ import { findRoute } from "./routes.js";
 import { servicesChart,initialize } from "./charts.js";
 import { createLegend, legendButtons } from "./legend.js";
 
-var map= L.map('map').setView([0.0,0.0],3);
-//map.options.maxBounds=[[90,-90],[180,-180]];
-//map.setMaxBounds(map.getBounds);
-//map.options.maxBoundsViscosity=1.0;
+var bounds = new L.LatLngBounds(new L.LatLng(90, -180), new L.LatLng(-90, 180));
+
+var map = new L.Map('map', {
+  center: bounds.getCenter(),
+  zoom: 3,
+  maxBounds: bounds,
+  maxBoundsViscosity: 0.75
+});
 
 
 var baseLayer=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 15,
     minZoom:3,
-    noWrap:false,
+    noWrap:true,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 

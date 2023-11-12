@@ -26,12 +26,14 @@ function findRoute(ofId){
                     //var path=L.curve(['M',[lat1,lng1],'Q',controlPoint(lat1,lng1,lat2,lng2),[lat2,lng2]],{color:'red',fill:false,weight:1}); //departure
                     //pathArray.push(path);
                     var path=L.smoothGeodesic([lat1,lng1],[lat2,lng2],30,{color:'red',fill:false,weight:1});
+                    cross180(path,pathArray,lat2,lng2,-180);
                     pathArray.push(path);
 
                 }else{
                     //var path=L.curve(['M',[lat2,lng2],'Q',controlPoint(lat2,lng2,lat1,lng1),[lat1,lng1]],{color:'red',fill:false,weight:1}); //arrival
                     //pathArray.push(path);
                     var path=L.smoothGeodesic([lat2,lng2],[lat1,lng1],30,{color:'red',fill:false,weight:1});
+                    cross180(path,pathArray,lat1,lng1,180);
                     pathArray.push(path);
                 }
             
@@ -50,6 +52,15 @@ function findRoute(ofId){
     return pathArray;
     
 
+}
+
+//function to rectify geodesic lines crossing 180 longitude
+function cross180(path,pathArray,lat,lng, val){
+    console.log(path._pathData.slice(-1)[0]);
+    if (path._pathData.slice(-1)[0].includes(val)){
+        var newPath= L.smoothGeodesic([lat,lng],[path._pathData.slice(-1)[0][0],180],30,{color:'red',fill:false,weight:1});
+        pathArray.push(newPath);
+    }
 }
 
 //function to curve the Bezier curve without control point
